@@ -1,0 +1,104 @@
+.signup {
+    height: 100%;
+}
+.MainBkg {
+    background-image: url('../../../public/background.jpg');
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+}
+.contentWrap {
+    width: 50%;
+    min-width: 420px;
+    max-width: 936px;
+    height: auto;
+    display: flex;
+    position: relative;
+}
+
+@media (max-width: 1180px) {
+    .contentWrap {
+        width: 67%;
+    }
+}
+@media (max-width: 900px) {
+    .contentWrap {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        position: relative;
+        justify-content: space-evenly;
+    }
+}
+
+.leftWrap {
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+    background-color: #252525;
+    border-radius: 4px 0 0 4px;
+}
+.rightWrap {
+    position: relative;
+    background-color: #fff;
+    border-radius: 0 4px 4px 0;
+}
+.leftWrap, .rightWrap {
+    width: 50%;
+    height: auto;
+    min-height: 50vh;
+    transition: all .25s ease-out;
+}
+.imgCont {
+    width: 250px;
+    min-width: 200px;
+    margin-bottom: 20vh;
+}
+.textHld {
+    width: 72%;
+    color: #fff;
+    position: absolute;
+    text-align: center;
+    bottom: 13vh;
+    left: 13%;
+}
+.img {
+    width: 100%;
+    height: auto;
+}
+.majorCap {
+    font-size: 16px;
+    margin-bottom: 2vh;
+}
+.minorText {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.rightWrap .topHld {
+    margin: 0 auto;
+    max-width: 400px;
+    padding: 6vh 10% 4vh;
+}
+
+.rightWrap .topHld .actionTitle {
+    text-align: center;
+    margin-bottom: 2vh;
+}
+
+.show {
+    display: block;
+    opacity: 1;
+}
+
+.hide {
+    display: none;
+    opacity: 0;
+}
