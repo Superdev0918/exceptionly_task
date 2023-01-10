@@ -1,0 +1,33 @@
+.signInForm {
+  display: block;
+  -webkit-animation: signInFormInAnimation .25s ease-out;
+  animation: signInFormInAnimation .25s ease-out;
+}
+
+.input-email-field {
+  height: 50px;
+  width: 100%;
+  margin: 16px 0px 8px !important;
+}
+
+.input-password-field {
+  width: 100%;
+  margin: 16px 0px !important;
+}
+
+label {
+  font-size: 14px!important;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+#standard-weight-helper-text {
+  font-size: 14px !important;
+}
+
+.signInForm__buttons {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}

@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
-import Button from '@mui/material/Button';
+
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GoogleIcon from '@mui/icons-material/Google';
+import MicroSoftIcon from '@mui/icons-material/Window';
+
+import LoginCard from '../../components/LoginCard'
+
 import './styles.css';
 
-import { Paper, Box, Grid, Hidden } from '@mui/material'
+import { Divider, Button, Link } from '@mui/material'
 
 export interface LoginCardProps {
     setLoginMode: React.Dispatch<React.SetStateAction<string>>
@@ -49,11 +53,34 @@ const Login: React.FC = () => {
                             </div>
                             <div className='vertical-centre'>
                                 <div className='signInGroup'>
-                                    <div><Button variant="contained" startIcon={<GoogleIcon />}>SIGN IN WITH GOOGLE</Button></div>
+                                    <div><Button variant="contained" className='googleIcon' startIcon={<GoogleIcon />}>SIGN IN WITH GOOGLE</Button></div>
+                                    <div><Button variant="contained" className='linkedinIcon' startIcon={<LinkedInIcon />}>SIGN IN WITH LINKEDIN</Button></div>
+                                    <div><Button variant="contained" className='microIcon' startIcon={<MicroSoftIcon />}>SIGN IN WITH MICROSOFT</Button></div>
+                                    <Divider variant="middle" className='divider'>or use business email</Divider>
+                                </div>
+                                <div>
+                                    <form><LoginCard setLoginMode={setLoginMode} /></form>
                                 </div>
                             </div>
                         </div>
-                        <div className='show'></div>
+                        <div className='show'>
+                            <div className='btHld'>
+                                <div className='innerNewText'>
+                                    <span className='show' style={{color:'white'}}>Don't have an account?</span>
+                                    <span className='hide' style={{color:'white'}}>Already have an account?</span>
+                                    <span>
+                                        <Link
+                                            onClick={() => setLoginMode('register')}
+                                            className='registerOption'
+                                            underline="none"
+                                            sx={{cursor:'pointer'}}
+                                        >
+                                            CREATE ACCOUNT
+                                        </Link>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
