@@ -23,8 +23,6 @@
 }
 
 
-
-
 .leftWrap {
     display: flex;
     align-items: center;
@@ -72,7 +70,7 @@
 
 .rightWrap .topHld {
     margin: 0 auto;
-    max-width: 400px;
+    max-width: 300px;
     padding: 6vh 10% 4vh;
 }
 

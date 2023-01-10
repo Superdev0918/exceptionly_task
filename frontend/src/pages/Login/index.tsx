@@ -5,6 +5,10 @@ import GoogleIcon from '@mui/icons-material/Google';
 import MicroSoftIcon from '@mui/icons-material/Window';
 
 import LoginCard from '../../components/LoginCard'
+import RegisterCard from '../../components/RegisterCard';
+import PasswordReset from '../../components/PasswordReset';
+
+import RegistrationProvider from '../../contexts/RegistrationContext'
 
 import './styles.css';
 
@@ -18,7 +22,7 @@ export interface LoginCardProps {
 const Login: React.FC = () => {
 
     const [loginMode, setLoginMode] = useState('login')
-
+    console.log("here: ", loginMode)
     return (
         <div className='signup'>
             <div className='MainBkg'>
@@ -44,8 +48,7 @@ const Login: React.FC = () => {
                                     src='logo.bf7070eb.svg'
                                 />
                                 <div className='proText'>
-                                    <span className='show'>Sign in to your account</span>
-                                    <span className='hide'>Sign up to your account</span>
+                                    <span className='show'>{loginMode === 'login' ? 'Sign in' : 'Sign up'} to your account</span>
                                     <span className='hide'>Password Recovery</span>
                                     <span className='hide'>Invalid Registration</span>
                                     <span className='hide'>Password Recovery</span>
@@ -59,24 +62,40 @@ const Login: React.FC = () => {
                                     <Divider variant="middle" className='divider'>or use business email</Divider>
                                 </div>
                                 <div>
-                                    <form><LoginCard setLoginMode={setLoginMode} /></form>
+                                    <form>
+                                        {loginMode === 'login' && <LoginCard setLoginMode={setLoginMode} />}
+                                        {loginMode === 'register' && (
+                                            <RegistrationProvider>
+                                                <RegisterCard setLoginMode={setLoginMode} />
+                                            </RegistrationProvider>
+                                        )}
+                                    </form>
                                 </div>
                             </div>
                         </div>
                         <div className='show'>
                             <div className='btHld'>
                                 <div className='innerNewText'>
-                                    <span className='show' style={{color:'white'}}>Don't have an account?</span>
-                                    <span className='hide' style={{color:'white'}}>Already have an account?</span>
+                                    <span className='show' style={{color:'white'}}>{loginMode === 'login' ? "Don't have an account?" : 'Already have an account?'}</span>
                                     <span>
-                                        <Link
+                                        {loginMode === 'login' && <Link
                                             onClick={() => setLoginMode('register')}
                                             className='registerOption'
                                             underline="none"
                                             sx={{cursor:'pointer'}}
-                                        >
-                                            CREATE ACCOUNT
-                                        </Link>
+                                            >
+                                                CREATE ACCOUNT
+                                            </Link>
+                                        }
+                                        {loginMode === 'register' && <Link
+                                            onClick={() => setLoginMode('login')}
+                                            className='registerOption'
+                                            underline="none"
+                                            sx={{cursor:'pointer'}}
+                                            >
+                                                SIGN IN HERE
+                                            </Link>
+                                        }
                                     </span>
                                 </div>
                             </div>
