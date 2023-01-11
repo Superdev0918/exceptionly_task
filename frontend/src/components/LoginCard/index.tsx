@@ -15,7 +15,7 @@ import { VisibilityOff, Visibility } from '@mui/icons-material';
 
 import { LoginCardProps } from '../../pages/Login'
 
-// import PasswordReset from '../PasswordReset'
+import { validateEmail, validateLoginPassword } from '../../helpers/validators'
 
 import { useAuthContext } from '../../contexts/AuthContext'
 
@@ -24,22 +24,13 @@ import  './styles.css'
 const LoginCard: React.FC<LoginCardProps> = (props) => {
   const { setLoginMode } = props
 
-  const [modalOpen, setModalOpen] = useState(false)
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [rememberMe, setRememberMe] = useState(false)
 
-  const [passwordVisible, setPasswordVisible] = useState(false)
-  function togglePasswordVisibility() {
-    setPasswordVisible(!passwordVisible)
-  }
-
-  const { signIn, resetErrors, emailError, passwordError } = useAuthContext()
+  const { signIn, emailError, passwordError, setEmailError, setPasswordError } = useAuthContext()
 
   const handleLoginSubmit = () => {
-    resetErrors()
-    signIn(email, password, rememberMe)
+    signIn(email, password)
   }
 
   const [showPassword, setShowPassword] = React.useState(false);
@@ -50,22 +41,40 @@ const LoginCard: React.FC<LoginCardProps> = (props) => {
     event.preventDefault();
   };
 
+  const handleValidateEmail = (e:any) => {
+    setEmail(e.target.value);
+    setEmailError(validateEmail(e.target.value));
+  }
+
+  const handleValidatePassword = (e:any) => {
+    setPassword(e.target.value)
+    setPasswordError(validateLoginPassword(e.target.value));
+  }
+
   return (
     <div className='signInForm'>
        <TextField
           id="standard-textarea"
           label="Email"
+          error={emailError !== ''}
+          type="email"
           InputLabelProps={{
             shrink: true,
           }}
+          value={email}
           variant="standard"
           className='input-email-field'
+          onChange={(e) => handleValidateEmail(e)}
+          helperText={emailError}
+          autoFocus
         />
         <FormControl className='input-password-field' variant="standard">
-          <FormHelperText id="standard-weight-helper-text">Password</FormHelperText>
+          <FormHelperText id="standard-weight-helper-text" error={passwordError !== ''}>Password</FormHelperText>
           <Input
             id="standard-adornment-password"
             type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={(e) => handleValidatePassword(e)}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -78,6 +87,7 @@ const LoginCard: React.FC<LoginCardProps> = (props) => {
               </InputAdornment>
             }
           />
+          {passwordError !=='' && <FormHelperText id="standard-weight-helper-text" error>{passwordError}</FormHelperText>}
         </FormControl>
         <Box className='signInForm__buttons'>
           <Button onClick={handleLoginSubmit} variant="contained" color="primary">

@@ -8,9 +8,10 @@ interface AuthContextData {
     user: user
     emailError: string
     passwordError: string
-    signIn(email: string, password: string, rememberMe: Boolean): Promise<void>
+    signIn(email: string, password: string): Promise<void>
     signOut(): void
-    resetErrors(): void
+    setEmailError: React.Dispatch<React.SetStateAction<string>>
+    setPasswordError: React.Dispatch<React.SetStateAction<string>>
 }
 
 interface user {
@@ -46,11 +47,6 @@ export const AuthProvider: React.FC<IAuthProviderProp> = ({ children }) => {
             setSigned(true)
         }
     }, [])
-
-    function resetErrors() {
-        setEmailError('')
-        setPasswordError('')
-    }
     
     function signOut() {
         localStorage.clear()
@@ -58,7 +54,7 @@ export const AuthProvider: React.FC<IAuthProviderProp> = ({ children }) => {
         setSigned(false)
     }
 
-    async function signIn(email: string, password: string, rememberMe: Boolean) {
+    async function signIn(email: string, password: string) {
         await api
           .post('users/login', {
             email,
@@ -67,12 +63,6 @@ export const AuthProvider: React.FC<IAuthProviderProp> = ({ children }) => {
         .then((response:any) => {
             if (response.status === 200) {
               const { user, token } = response.data
-              if(rememberMe) {
-                if (user !== null) {
-                  localStorage.setItem('userEmail', user.email.toString())
-                }
-                localStorage.setItem('userToken', token)
-              }
               api.defaults.headers.Authorization = `Bearer ${token}`
               setUser(user)
               setToken(token)
@@ -103,7 +93,8 @@ export const AuthProvider: React.FC<IAuthProviderProp> = ({ children }) => {
                 passwordError,
                 signIn,
                 signOut,
-                resetErrors,
+                setEmailError,
+                setPasswordError,
             }}
         >
             {children}
@@ -121,7 +112,8 @@ export function useAuthContext() {
         passwordError,
         signIn,
         signOut,
-        resetErrors,
+        setEmailError,
+        setPasswordError
     } = context
     return {
         signed,
@@ -131,7 +123,8 @@ export function useAuthContext() {
         passwordError,
         signIn,
         signOut,
-        resetErrors,
+        setEmailError,
+        setPasswordError
     }
   }
   

@@ -4,12 +4,10 @@ import api from '../services/api'
 
 type RegistrationContextData = {
   legalPerson: string
-  name: string
-  nameError: string
-  cpf: string
-  cpfError: string
-  cnpj: string
-  cnpjError: string
+  firstName: string
+  firstNameError: string
+  lastName: string
+  lastNameError: string
   email: string
   emailError: string
   emailConfirmation: string
@@ -19,12 +17,10 @@ type RegistrationContextData = {
   passwordConfirmation: string
   passwordConfirmationError: string
   setLegalPerson: React.Dispatch<React.SetStateAction<string>>
-  setName: React.Dispatch<React.SetStateAction<string>>
-  setNameError: React.Dispatch<React.SetStateAction<string>>
-  setCpf: React.Dispatch<React.SetStateAction<string>>
-  setCpfError: React.Dispatch<React.SetStateAction<string>>
-  setCnpj: React.Dispatch<React.SetStateAction<string>>
-  setCnpjError: React.Dispatch<React.SetStateAction<string>>
+  setFirstName: React.Dispatch<React.SetStateAction<string>>
+  setFirstNameError: React.Dispatch<React.SetStateAction<string>>
+  setLastName: React.Dispatch<React.SetStateAction<string>>
+  setLastNameError: React.Dispatch<React.SetStateAction<string>>
   setEmail: React.Dispatch<React.SetStateAction<string>>
   setEmailError: React.Dispatch<React.SetStateAction<string>>
   setEmailConfirmation: React.Dispatch<React.SetStateAction<string>>
@@ -45,12 +41,10 @@ const RegistrationContext = createContext<any>(void 0)
 
 const RegistrationProvider: React.FC<Props> = ({ children }) => {
   const [legalPerson, setLegalPerson] = useState('physical')
-  const [name, setName] = useState('')
-  const [nameError, setNameError] = useState('')
-  const [cpf, setCpf] = useState('')
-  const [cpfError, setCpfError] = useState('')
-  const [cnpj, setCnpj] = useState('')
-  const [cnpjError, setCnpjError] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [firstNameError, setFirstNameError] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [lastNameError, setLastNameError] = useState('')
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
   const [emailConfirmation, setEmailConfirmation] = useState('')
@@ -64,7 +58,8 @@ const RegistrationProvider: React.FC<Props> = ({ children }) => {
     api.post("users", {
       email,
       password,
-      name
+      firstName,
+      lastName
     }).then((response) => {
       if (response.status === 200) window.location.reload()
     }).catch((error) => {
@@ -75,18 +70,14 @@ const RegistrationProvider: React.FC<Props> = ({ children }) => {
   const values = {
     legalPerson,
     setLegalPerson,
-    name,
-    setName,
-    nameError,
-    setNameError,
-    cpf,
-    setCpf,
-    cpfError,
-    setCpfError,
-    cnpj,
-    setCnpj,
-    cnpjError,
-    setCnpjError,
+    firstName,
+    setFirstName,
+    firstNameError,
+    setFirstNameError,
+    lastName,
+    setLastName,
+    lastNameError,
+    setLastNameError,
     email,
     setEmail,
     emailError,
@@ -120,18 +111,14 @@ export function useRegistrationContext() {
   const {
     legalPerson,
     setLegalPerson,
-    name,
-    setName,
-    nameError,
-    setNameError,
-    cpf,
-    setCpf,
-    cpfError,
-    setCpfError,
-    cnpj,
-    setCnpj,
-    cnpjError,
-    setCnpjError,
+    firstName,
+    setFirstName,
+    firstNameError,
+    setFirstNameError,
+    lastName,
+    setLastName,
+    lastNameError,
+    setLastNameError,
     email,
     setEmail,
     emailError,
@@ -153,18 +140,14 @@ export function useRegistrationContext() {
   return {
     legalPerson,
     setLegalPerson,
-    name,
-    setName,
-    nameError,
-    setNameError,
-    cpf,
-    setCpf,
-    cpfError,
-    setCpfError,
-    cnpj,
-    setCnpj,
-    cnpjError,
-    setCnpjError,
+    firstName,
+    setFirstName,
+    firstNameError,
+    setFirstNameError,
+    lastName,
+    setLastName,
+    lastNameError,
+    setLastNameError,
     email,
     setEmail,
     emailError,
