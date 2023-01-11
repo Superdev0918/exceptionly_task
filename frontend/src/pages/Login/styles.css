@@ -136,6 +136,12 @@
     font-size: 14px;
 }
 
+.rightWrap .topHld .actionTitle img {
+    width: 150px;
+    max-width: 180px;
+    height: auto;
+}
+
 @media (max-width: 900px) {
     .contentWrap {
         width: 100%;

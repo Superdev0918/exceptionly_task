@@ -41,14 +41,14 @@ const LoginCard: React.FC<LoginCardProps> = (props) => {
     event.preventDefault();
   };
 
-  const handleValidateEmail = (e:any) => {
-    setEmail(e.target.value);
-    setEmailError(validateEmail(e.target.value));
+  const handleValidateEmail = (event:React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+    setEmailError(validateEmail(event.target.value));
   }
 
-  const handleValidatePassword = (e:any) => {
-    setPassword(e.target.value)
-    setPasswordError(validateLoginPassword(e.target.value));
+  const handleValidatePassword = (event:React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value)
+    setPasswordError(validateLoginPassword(event.target.value));
   }
 
   return (
@@ -64,7 +64,7 @@ const LoginCard: React.FC<LoginCardProps> = (props) => {
           value={email}
           variant="standard"
           className='input-email-field'
-          onChange={(e) => handleValidateEmail(e)}
+          onChange={handleValidateEmail}
           helperText={emailError}
           autoFocus
         />
@@ -74,7 +74,7 @@ const LoginCard: React.FC<LoginCardProps> = (props) => {
             id="standard-adornment-password"
             type={showPassword ? 'text' : 'password'}
             value={password}
-            onChange={(e) => handleValidatePassword(e)}
+            onChange={handleValidatePassword}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton

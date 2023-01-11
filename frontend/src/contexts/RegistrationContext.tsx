@@ -23,12 +23,8 @@ type RegistrationContextData = {
   setLastNameError: React.Dispatch<React.SetStateAction<string>>
   setEmail: React.Dispatch<React.SetStateAction<string>>
   setEmailError: React.Dispatch<React.SetStateAction<string>>
-  setEmailConfirmation: React.Dispatch<React.SetStateAction<string>>
-  setEmailConfirmationError: React.Dispatch<React.SetStateAction<string>>
   setPassword: React.Dispatch<React.SetStateAction<string>>
   setPasswordError: React.Dispatch<React.SetStateAction<string>>
-  setPasswordConfirmation: React.Dispatch<React.SetStateAction<string>>
-  setPasswordConfirmationError: React.Dispatch<React.SetStateAction<string>>
 
   sendNewUser(): Promise<void>
 }
@@ -47,12 +43,8 @@ const RegistrationProvider: React.FC<Props> = ({ children }) => {
   const [lastNameError, setLastNameError] = useState('')
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
-  const [emailConfirmation, setEmailConfirmation] = useState('')
-  const [emailConfirmationError, setEmailConfirmationError] = useState('')
   const [password, setPassword] = useState('')
   const [passwordError, setPasswordError] = useState('')
-  const [passwordConfirmation, setPasswordConfirmation] = useState('')
-  const [passwordConfirmationError, setPasswordConfirmationError] = useState('')
 
   async function sendNewUser() {
     api.post("users", {
@@ -82,18 +74,10 @@ const RegistrationProvider: React.FC<Props> = ({ children }) => {
     setEmail,
     emailError,
     setEmailError,
-    emailConfirmation,
-    setEmailConfirmation,
-    emailConfirmationError,
-    setEmailConfirmationError,
     password,
     setPassword,
     passwordError,
     setPasswordError,
-    passwordConfirmation,
-    setPasswordConfirmation,
-    passwordConfirmationError,
-    setPasswordConfirmationError,
     sendNewUser,
   }
 
@@ -123,18 +107,10 @@ export function useRegistrationContext() {
     setEmail,
     emailError,
     setEmailError,
-    emailConfirmation,
-    setEmailConfirmation,
-    emailConfirmationError,
-    setEmailConfirmationError,
     password,
     setPassword,
     passwordError,
     setPasswordError,
-    passwordConfirmation,
-    setPasswordConfirmation,
-    passwordConfirmationError,
-    setPasswordConfirmationError,
     sendNewUser,
   } = context
   return {
@@ -152,18 +128,10 @@ export function useRegistrationContext() {
     setEmail,
     emailError,
     setEmailError,
-    emailConfirmation,
-    setEmailConfirmation,
-    emailConfirmationError,
-    setEmailConfirmationError,
     password,
     setPassword,
     passwordError,
     setPasswordError,
-    passwordConfirmation,
-    setPasswordConfirmation,
-    passwordConfirmationError,
-    setPasswordConfirmationError,
     sendNewUser,
   }
 }

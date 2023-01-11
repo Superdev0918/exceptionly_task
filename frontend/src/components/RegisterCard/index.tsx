@@ -39,14 +39,10 @@ const RegisterCard: React.FC<LoginCardProps> = (props) => {
     setEmail,
     emailError,
     setEmailError,
-    emailConfirmation,
-    emailConfirmationError,
     password,
     setPassword,
     passwordError,
     setPasswordError,
-    passwordConfirmation,
-    passwordConfirmationError,
     sendNewUser,
   } = useRegistrationContext()
 
@@ -58,32 +54,30 @@ const RegisterCard: React.FC<LoginCardProps> = (props) => {
    
       if (
         password &&
-        passwordError === '' &&
-        passwordConfirmation &&
-        passwordConfirmationError === ''
+        passwordError === ''
       ) {
         sendNewUser()
       } else defaultAlert()
   }
 
-  const handleValidateFirstName = (e:any) => {
-    setFirstName(e.target.value);
-    setFirstNameError(validateFirstName(e.target.value));
+  const handleValidateFirstName = (event:React.ChangeEvent<HTMLInputElement>) => {
+    setFirstName(event.target.value);
+    setFirstNameError(validateFirstName(event.target.value));
   }
 
-  const handleValidateLastName = (e:any) => {
-    setLastName(e.target.value);
-    setLastNameError(validateLastName(e.target.value));
+  const handleValidateLastName = (event:React.ChangeEvent<HTMLInputElement>) => {
+    setLastName(event.target.value);
+    setLastNameError(validateLastName(event.target.value));
   }
 
-  const handleValidateEmail = (e:any) => {
-    setEmail(e.target.value);
-    setEmailError(validateEmail(e.target.value));
+  const handleValidateEmail = (event:React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+    setEmailError(validateEmail(event.target.value));
   }
 
-  const handleValidatePassword = (e:any) => {
-    setPassword(e.target.value)
-    setPasswordError(validatePassword(e.target.value));
+  const handleValidatePassword = (event:React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value)
+    setPasswordError(validatePassword(event.target.value));
   }
 
   const [showPassword, setShowPassword] = React.useState(false);
@@ -104,7 +98,7 @@ const RegisterCard: React.FC<LoginCardProps> = (props) => {
             shrink: true,
         }}
         value={firstName}
-        onChange={(e) => handleValidateFirstName(e)}
+        onChange={handleValidateFirstName}
         helperText={firstNameError}
         variant="standard"
         className='input-email-field'
@@ -117,7 +111,7 @@ const RegisterCard: React.FC<LoginCardProps> = (props) => {
             shrink: true,
         }}
         value={lastName}
-        onChange={(e) => handleValidateLastName(e)}
+        onChange={handleValidateLastName}
         helperText={lastNameError}
         variant="standard"
         className='input-email-field'
@@ -130,7 +124,7 @@ const RegisterCard: React.FC<LoginCardProps> = (props) => {
             shrink: true,
         }}
         value={email}
-        onChange={(e) => handleValidateEmail(e)}
+        onChange={handleValidateEmail}
         helperText={emailError}
         variant="standard"
         className='input-email-field'
@@ -141,7 +135,7 @@ const RegisterCard: React.FC<LoginCardProps> = (props) => {
               id="standard-adornment-password"
               type={showPassword ? 'text' : 'password'}
               value={password}
-              onChange={(e) => handleValidatePassword(e)}
+              onChange={handleValidatePassword}
               endAdornment={
               <InputAdornment position="end">
                   <IconButton
@@ -157,9 +151,9 @@ const RegisterCard: React.FC<LoginCardProps> = (props) => {
           {passwordError !=='' && <FormHelperText id="standard-weight-helper-text" error>{passwordError}</FormHelperText>}
         </FormControl>
         <Box className='signInForm__buttons'>
-        <Button onClick={handleSubmitButton} variant="contained" color="primary">
-            SIGN UP
-        </Button>
+          <Button onClick={handleSubmitButton} variant="contained" color="primary">
+              SIGN UP
+          </Button>
         </Box>
  </div>
   )

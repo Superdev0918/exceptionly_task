@@ -22,7 +22,7 @@ export interface LoginCardProps {
 const Login: React.FC = () => {
 
     const [loginMode, setLoginMode] = useState('login')
-    console.log("here: ", loginMode)
+
     return (
         <div className='signup'>
             <div className='MainBkg'>
