@@ -30,7 +30,24 @@ const LoginCard: React.FC<LoginCardProps> = (props) => {
   const { signIn, emailError, passwordError, setEmailError, setPasswordError } = useAuthContext()
 
   const handleLoginSubmit = () => {
-    signIn(email, password)
+    if (email === '' && emailError === '') {
+      setEmail('');
+      setEmailError(validateEmail(''));
+    }
+
+    if (password === '' && passwordError === '') {
+      setPassword('')
+      setPasswordError(validateLoginPassword(''));
+    } 
+    
+    if (
+      email &&
+      emailError === '' &&
+      password &&
+      passwordError === ''
+    ) {
+      signIn(email, password)
+    }
   }
 
   const [showPassword, setShowPassword] = React.useState(false);
@@ -54,7 +71,7 @@ const LoginCard: React.FC<LoginCardProps> = (props) => {
   return (
     <div className='signInForm'>
        <TextField
-          id="standard-textarea"
+          id="email"
           label="Email"
           error={emailError !== ''}
           type="email"
@@ -71,7 +88,7 @@ const LoginCard: React.FC<LoginCardProps> = (props) => {
         <FormControl className='input-password-field' variant="standard">
           <FormHelperText id="standard-weight-helper-text" error={passwordError !== ''}>Password</FormHelperText>
           <Input
-            id="standard-adornment-password"
+            id="password"
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={handleValidatePassword}

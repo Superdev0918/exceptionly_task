@@ -4,6 +4,7 @@ import api from '../services/api'
 
 interface AuthContextData {
     signed: boolean
+    loading: boolean
     token: string
     user: user
     emailError: string
@@ -29,6 +30,7 @@ export const AuthProvider: React.FC<IAuthProviderProp> = ({ children }) => {
     const [token, setToken] = useState('')
     const [user, setUser] = useState<user>({} as user)
     const [signed, setSigned] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
@@ -55,8 +57,9 @@ export const AuthProvider: React.FC<IAuthProviderProp> = ({ children }) => {
     }
 
     async function signIn(email: string, password: string) {
+        setLoading(true)
         await api
-          .post('users/login', {
+          .post('login', {
             email,
             password,
         })
@@ -67,9 +70,11 @@ export const AuthProvider: React.FC<IAuthProviderProp> = ({ children }) => {
               setUser(user)
               setToken(token)
               setSigned(true)
+              setLoading(false)
             }
         })
         .catch((error:any) => {
+            setLoading(false)
             const { errors, message } = error.response.data
     
             if (error.response.status === 400) {
@@ -87,6 +92,7 @@ export const AuthProvider: React.FC<IAuthProviderProp> = ({ children }) => {
         <AuthContext.Provider
             value={{
                 signed,
+                loading,
                 token,
                 user,
                 emailError,
@@ -106,6 +112,7 @@ export function useAuthContext() {
     const context = useContext(AuthContext)
     const {
         signed,
+        loading,
         token,
         user,
         emailError,
@@ -117,6 +124,7 @@ export function useAuthContext() {
     } = context
     return {
         signed,
+        loading,
         token,
         user,
         emailError,

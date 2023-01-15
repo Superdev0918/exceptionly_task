@@ -51,16 +51,45 @@ const RegisterCard: React.FC<LoginCardProps> = (props) => {
   }
 
   const handleSubmitButton = () => {
-   
+
+      if (firstName === '' && firstNameError === '') {
+        console.log(typeof(firstName));
+        setFirstName('');
+        setFirstNameError(validateFirstName(''));
+      } 
+
+      if (lastName === '' && lastNameError === '') {
+        setLastName('');
+        setLastNameError(validateLastName(''));
+      }
+
+      if (email === '' && emailError === '') {
+        setEmail('');
+        setEmailError(validateEmail(''));
+      }
+
+      if (password === '' && passwordError === '') {
+        setPassword('')
+        setPasswordError(validatePassword(''));
+      } 
+      
       if (
+        firstName &&
+        firstNameError === '' &&
+        lastName &&
+        lastNameError === '' &&
+        email &&
+        emailError === '' &&
         password &&
         passwordError === ''
       ) {
         sendNewUser()
-      } else defaultAlert()
+      }
+      
   }
 
   const handleValidateFirstName = (event:React.ChangeEvent<HTMLInputElement>) => {
+    console.log("here: ", event.target.value);
     setFirstName(event.target.value);
     setFirstNameError(validateFirstName(event.target.value));
   }
@@ -91,7 +120,7 @@ const RegisterCard: React.FC<LoginCardProps> = (props) => {
   return (
     <div className='signUpForm'>
         <TextField
-        id="standard-textarea"
+        id="first_name"
         label="First name"
         error={firstNameError !== ''}
         InputLabelProps={{
@@ -104,7 +133,7 @@ const RegisterCard: React.FC<LoginCardProps> = (props) => {
         className='input-email-field'
         />
         <TextField
-        id="standard-textarea"
+        id="last_name"
         label="Last name"
         error={lastNameError !== ''}
         InputLabelProps={{
@@ -117,7 +146,7 @@ const RegisterCard: React.FC<LoginCardProps> = (props) => {
         className='input-email-field'
         />
         <TextField
-        id="standard-textarea"
+        id="email"
         label="Email"
         error={emailError !== ''}
         InputLabelProps={{
@@ -132,7 +161,7 @@ const RegisterCard: React.FC<LoginCardProps> = (props) => {
         <FormControl className='input-password-field' variant="standard">
           <FormHelperText id="standard-weight-helper-text" error={passwordError !== ''}>Password</FormHelperText>
           <Input
-              id="standard-adornment-password"
+              id="password"
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={handleValidatePassword}

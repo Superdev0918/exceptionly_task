@@ -40,7 +40,7 @@ export class UserResolver {
     if (id === user.id) {
       return await this.userService.update(id, updateUserDTO)
     } else {
-      throw new UnauthorizedException('권한이 없습니다.')
+      throw new UnauthorizedException('No Access')
     }
   }
 
@@ -50,7 +50,7 @@ export class UserResolver {
     if (id === user.id) {
       return this.userService.delete(id)
     } else {
-      throw new UnauthorizedException('권한이 없습니다.')
+      throw new UnauthorizedException('No Access')
     }
   }
 }

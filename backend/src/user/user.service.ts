@@ -36,7 +36,7 @@ export class UserService {
           username: createUserDTO.username,
         })
       ) {
-        throw new BadRequestException('이미 존재하는 username입니다.')
+        throw new BadRequestException('Already Exist User')
       }
       const user = queryRunner.manager.create(User, createUserDTO)
       await queryRunner.manager.save(user)
@@ -82,9 +82,9 @@ export class UserService {
         }
         await queryRunner.manager.update(User, { id: id }, updateUserDTO)
         await queryRunner.commitTransaction()
-        return '정상적으로 유저 정보가 수정되었습니다.'
+        return 'Update Success'
       } else {
-        throw new BadRequestException('존재하지 않는 유저입니다.')
+        throw new BadRequestException('Unknown User.')
       }
     } catch (error) {
       await queryRunner.rollbackTransaction()
@@ -102,7 +102,7 @@ export class UserService {
       const accessToken = this.jwtService.sign({ id: user.id })
       return accessToken
     } else {
-      throw new UnauthorizedException('로그인 실패')
+      throw new UnauthorizedException('Login Fail')
     }
   }
 }

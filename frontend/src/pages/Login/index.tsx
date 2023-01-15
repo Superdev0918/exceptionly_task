@@ -7,8 +7,10 @@ import MicroSoftIcon from '@mui/icons-material/Window';
 import LoginCard from '../../components/LoginCard'
 import RegisterCard from '../../components/RegisterCard';
 import PasswordReset from '../../components/PasswordReset';
+import Spinner from '../../components/Spinner';
 
 import RegistrationProvider from '../../contexts/RegistrationContext'
+import { useAuthContext } from '../../contexts/AuthContext'
 
 import './styles.css';
 
@@ -20,6 +22,7 @@ export interface LoginCardProps {
   
 
 const Login: React.FC = () => {
+    const { loading } = useAuthContext()
 
     const [loginMode, setLoginMode] = useState('login')
 
@@ -28,6 +31,7 @@ const Login: React.FC = () => {
             <div className='MainBkg'>
                 <div className='contentWrap'>
                     <div className='leftWrap'>
+                        {loading === true && <Spinner />}
                         <div className='imgCont'>
                             <img
                                 className='img'
