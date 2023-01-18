@@ -3,10 +3,20 @@ import { MinLength, MaxLength, Matches } from 'class-validator'
 
 @InputType()
 class UserDTO {
+  @MinLength(2)
+  @MaxLength(20)
+  @Field()
+  firstName: string
+
+  @MinLength(2)
+  @MaxLength(20)
+  @Field()
+  lastName: string
+
   @MinLength(8)
   @MaxLength(20)
   @Field()
-  username: string
+  email: string
 
   @MinLength(8)
   @MaxLength(20)
@@ -23,7 +33,7 @@ class UpdateUserDTO extends PartialType(UserDTO) {}
 
 @InputType()
 class AuthenticateUserDTO extends PickType(UserDTO, [
-  'username',
+  'email',
   'password',
 ] as const) {}
 

@@ -33,7 +33,7 @@ export class UserService {
     try {
       if (
         await queryRunner.manager.findOneBy(User, {
-          username: createUserDTO.username,
+          email: createUserDTO.email,
         })
       ) {
         throw new BadRequestException('Already Exist User')
@@ -96,7 +96,7 @@ export class UserService {
 
   async authenticate(authenticateUserDTO: AuthenticateUserDTO) {
     const user = await this.userRepository.findOneBy({
-      username: authenticateUserDTO.username,
+      email: authenticateUserDTO.email,
     })
     if (user && (await compare(authenticateUserDTO.password, user.password))) {
       const accessToken = this.jwtService.sign({ id: user.id })

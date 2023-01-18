@@ -11,7 +11,15 @@ class User {
 
   @Field(() => String)
   @Column()
-  username: string
+  firstName: string
+
+  @Field(() => String)
+  @Column()
+  lastName: string
+
+  @Field(() => String)
+  @Column()
+  email: string
 
   @Field(() => String)
   @Column()

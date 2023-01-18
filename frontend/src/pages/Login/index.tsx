@@ -1,8 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import GoogleIcon from '@mui/icons-material/Google';
-import MicroSoftIcon from '@mui/icons-material/Window';
 
 import LoginCard from '../../components/LoginCard'
 import RegisterCard from '../../components/RegisterCard';
@@ -16,15 +13,42 @@ import './styles.css';
 
 import { Divider, Button, Link } from '@mui/material'
 
+import { 
+    LoginSocialGoogle,
+    LoginSocialLinkedin,
+    LoginSocialMicrosoft,
+    TypeCrossFunction,
+    IResolveParams
+} from '../../components/Social';
+
 export interface LoginCardProps {
     setLoginMode: React.Dispatch<React.SetStateAction<string>>
 }
-  
+
+const REDIRECT_URI = 'http://localhost:3000/'
 
 const Login: React.FC = () => {
     const { loading } = useAuthContext()
 
+    
+
     const [loginMode, setLoginMode] = useState('login')
+    const [profile, setProfile] = useState<any>()
+    const [provider, setProvider] = useState('')
+
+    const linkedinRef = useRef<TypeCrossFunction>(null!)
+
+    const onLoginStart = useCallback(() => {
+        console.log('login start')
+    }, [])
+
+    const onLogoutSuccess = useCallback(() => {
+        setProfile(null)
+        setProvider('')
+        alert('logout success')
+    }, [])
+
+    const onLogout = useCallback(() => {}, []);
 
     return (
         <div className='signup'>
@@ -60,9 +84,51 @@ const Login: React.FC = () => {
                             </div>
                             <div className='vertical-centre'>
                                 <div className='signInGroup'>
-                                    <div><Button variant="contained" className='googleIcon' startIcon={<GoogleIcon />}>SIGN IN WITH GOOGLE</Button></div>
-                                    <div><Button variant="contained" className='linkedinIcon' startIcon={<LinkedInIcon />}>SIGN IN WITH LINKEDIN</Button></div>
-                                    <div><Button variant="contained" className='microIcon' startIcon={<MicroSoftIcon />}>SIGN IN WITH MICROSOFT</Button></div>
+                                    <LoginSocialGoogle
+                                        // client_id={process.env.REACT_APP_GG_APP_ID || ''}
+                                        client_id='exceptionly-375109'
+                                        onLoginStart={onLoginStart}
+                                        redirect_uri={REDIRECT_URI}
+                                        scope="openid profile email"
+                                        discoveryDocs="claims_supported"
+                                        access_type="offline"
+                                        onResolve={({ provider, data }: IResolveParams) => {
+                                            setProvider(provider);
+                                            setProfile(data);
+                                        }}
+                                        onReject={err => {
+                                            console.log(err);
+                                        }}
+                                    />
+                                    <LoginSocialLinkedin
+                                        ref={linkedinRef}
+                                        // client_id={process.env.REACT_APP_LINKEDIN_APP_ID || ''}
+                                        // client_secret={process.env.REACT_APP_LINKEDIN_APP_SECRET || ''}
+                                        client_id='78jz14o7ftvtd3'
+                                        client_secret='9gcxWxUTJjMThBa6'
+                                        redirect_uri={REDIRECT_URI}
+                                        onLoginStart={onLoginStart}
+                                        onLogoutSuccess={onLogoutSuccess}
+                                        onResolve={({ provider, data }: IResolveParams) => {
+                                            setProvider(provider)
+                                            setProfile(data)
+                                        }}
+                                        onReject={(err: any) => {
+                                            console.log(err)
+                                        }}
+                                    />
+                                    <LoginSocialMicrosoft
+                                        client_id={'da630e6a-2932-475d-bf34-c33b8a05c03e' || ''}
+                                        redirect_uri={REDIRECT_URI}
+                                        onLoginStart={onLoginStart}
+                                        onResolve={({ provider, data }: IResolveParams) => {
+                                            setProvider(provider);
+                                            setProfile(data);
+                                        }}
+                                        onReject={(err: any) => {
+                                            console.log(err);
+                                        }}
+                                    />
                                     <Divider variant="middle" className='divider'>or use business email</Divider>
                                 </div>
                                 <div>
