@@ -4,6 +4,9 @@ import { apolloClient } from "../graphql/client";
 
 import { SignIn } from "../graphql/mutations";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import api from '../services/api'
 
 interface AuthContextData {
@@ -84,49 +87,17 @@ export const AuthProvider: React.FC<IAuthProviderProp> = ({ children }) => {
         })
         .catch((error:any) => {
             setLoading(false)
-            console.log("fail");
-            const { errors, message } = error.errors.data
+            const stringError = JSON.stringify(error)
+            const jsonError = JSON.parse(stringError)
+            const message = jsonError.graphQLErrors[0].message
+            
+            toast(message);
     
-            if (error.response.status === 400) {
-              errors.Email && setEmailError(errors.Email[0])
-              errors.Password && setPasswordError(errors.Password[0])
-            } else if (error.response.status === 404) {
-              setEmailError(message)
-            } else {
-              setEmailError(`Algo deu errado. Cód.: ${error.response.status}`)
-            }
+            // setEmailError(errors.Email[0])
+            // setPasswordError(errors.Password[0])
+            // setEmailError(message)
         })
-
         
-
-        // await api
-        //   .post('login', {
-        //     email,
-        //     password,
-        // })
-        // .then((response:any) => {
-        //     if (response.status === 200) {
-        //       const { user, token } = response.data
-        //       api.defaults.headers.Authorization = `Bearer ${token}`
-        //       setUser(user)
-        //       setToken(token)
-        //       setSigned(true)
-        //       setLoading(false)
-        //     }
-        // })
-        // .catch((error:any) => {
-        //     setLoading(false)
-        //     const { errors, message } = error.response.data
-    
-        //     if (error.response.status === 400) {
-        //       errors.Email && setEmailError(errors.Email[0])
-        //       errors.Password && setPasswordError(errors.Password[0])
-        //     } else if (error.response.status === 404) {
-        //       setEmailError(message)
-        //     } else {
-        //       setEmailError(`Algo deu errado. Cód.: ${error.response.status}`)
-        //     }
-        // })
     }
 
     return (

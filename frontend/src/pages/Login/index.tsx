@@ -6,8 +6,14 @@ import RegisterCard from '../../components/RegisterCard';
 import PasswordReset from '../../components/PasswordReset';
 import Spinner from '../../components/Spinner';
 
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 import RegistrationProvider from '../../contexts/RegistrationContext'
 import { useAuthContext } from '../../contexts/AuthContext'
+
 
 import './styles.css';
 
@@ -29,8 +35,6 @@ const REDIRECT_URI = 'http://localhost:3000/'
 
 const Login: React.FC = () => {
     const { loading } = useAuthContext()
-
-    
 
     const [loginMode, setLoginMode] = useState('login')
     const [profile, setProfile] = useState<any>()
@@ -142,6 +146,9 @@ const Login: React.FC = () => {
                                     </form>
                                 </div>
                             </div>
+                        </div>
+                        <div>
+                        <ToastContainer />
                         </div>
                         <div className='show'>
                             <div className='btHld'>

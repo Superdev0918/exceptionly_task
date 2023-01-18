@@ -6,6 +6,10 @@ import { apolloClient } from "../graphql/client";
 
 import { SignUp } from "../graphql/mutations";
 
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 type RegistrationContextData = {
   legalPerson: string
   firstName: string
@@ -66,7 +70,10 @@ const RegistrationProvider: React.FC<Props> = ({ children }) => {
           }
       })
       .catch((error:any) => {
-          console.log('error')
+        const stringError = JSON.stringify(error)
+        const jsonError = JSON.parse(stringError)
+        const message = jsonError.graphQLErrors[0].message
+        toast(message);
       })
   }
 
