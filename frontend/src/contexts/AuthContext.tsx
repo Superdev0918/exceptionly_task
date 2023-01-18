@@ -1,5 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from "react"
 
+import { apolloClient } from "../graphql/client";
+
+import { SignIn } from "../graphql/mutations";
+
 import api from '../services/api'
 
 interface AuthContextData {
@@ -58,24 +62,30 @@ export const AuthProvider: React.FC<IAuthProviderProp> = ({ children }) => {
 
     async function signIn(email: string, password: string) {
         setLoading(true)
-        await api
-          .post('login', {
-            email,
-            password,
+        
+        apolloClient.mutate({
+            mutation: SignIn,
+            variables: {
+                email: email,
+                password: password
+            }
         })
         .then((response:any) => {
-            if (response.status === 200) {
-              const { user, token } = response.data
-              api.defaults.headers.Authorization = `Bearer ${token}`
-              setUser(user)
-              setToken(token)
-              setSigned(true)
-              setLoading(false)
+            if (response.data !== null) {
+                const token = response.data.login
+                api.defaults.headers.Authorization = `Bearer ${token}`
+                localStorage.setItem('userToken', token)
+                localStorage.setItem('userEmail', email.toString())
+                setUser(user)
+                setToken(token)
+                setSigned(true)
+                setLoading(false)
             }
         })
         .catch((error:any) => {
             setLoading(false)
-            const { errors, message } = error.response.data
+            console.log("fail");
+            const { errors, message } = error.errors.data
     
             if (error.response.status === 400) {
               errors.Email && setEmailError(errors.Email[0])
@@ -86,6 +96,37 @@ export const AuthProvider: React.FC<IAuthProviderProp> = ({ children }) => {
               setEmailError(`Algo deu errado. Cód.: ${error.response.status}`)
             }
         })
+
+        
+
+        // await api
+        //   .post('login', {
+        //     email,
+        //     password,
+        // })
+        // .then((response:any) => {
+        //     if (response.status === 200) {
+        //       const { user, token } = response.data
+        //       api.defaults.headers.Authorization = `Bearer ${token}`
+        //       setUser(user)
+        //       setToken(token)
+        //       setSigned(true)
+        //       setLoading(false)
+        //     }
+        // })
+        // .catch((error:any) => {
+        //     setLoading(false)
+        //     const { errors, message } = error.response.data
+    
+        //     if (error.response.status === 400) {
+        //       errors.Email && setEmailError(errors.Email[0])
+        //       errors.Password && setPasswordError(errors.Password[0])
+        //     } else if (error.response.status === 404) {
+        //       setEmailError(message)
+        //     } else {
+        //       setEmailError(`Algo deu errado. Cód.: ${error.response.status}`)
+        //     }
+        // })
     }
 
     return (

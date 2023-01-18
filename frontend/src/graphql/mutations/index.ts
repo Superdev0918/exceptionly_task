@@ -1,34 +1,26 @@
 import gql from 'graphql-tag';
 
-export const deleteAccountMutation = gql`
-    mutation DeleteAccountMutation($id: ID!) {
-        deleteAccount(id: $id) {
-            id
-        }
-    }
+export const SignIn = gql`
+  mutation login ($email: String!, $password: String!) {
+    login (authenticateUserDTO: {
+      email: $email
+      password: $password
+    })
+  }
 `;
 
-export const loginMutation = gql`
-    mutation LoginMutation($email: String!, $password: String!) {
-        login(email: $email, password: $password) {
-            email
-        }
-    }
+
+export const SignUp = gql`
+  mutation createUser ($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
+    createUser (createUserDTO: {
+        firstName: $firstName
+        lastName: $lastName
+        email: $email
+        password: $password
+    })
+  }
 `;
 
-export const logoutMutation = gql`
-    mutation LogoutMutation {
-        logout
-    }
-`;
-
-export const signupMutation = gql`
-    mutation SignupMutation($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
-        signup(firstName: $firstName, lastName: $lastName, email: $email, password: $password) {
-            email
-        }
-    }
-`;
 
 export const requestResetPasswordMutation = gql`
     mutation RequestResetPasswordMutation($email: String!) {
@@ -49,15 +41,3 @@ export const completeOnboardingMutation = gql`
         completeOnboarding
     }
 `;
-
-// export const TOGGLE_SNACKBAR_MUTATION = gql`
-//   mutation toggleSnackBar{
-//     toggleSnackBar(msg: $msg, type: $type) @client
-//   }
-// `;
-
-// export const TOGGLE_LEFT_DRAWER_MUTATION = gql`
-//   mutation toggleLeftDrawer{
-//     toggleLeftDrawer(status: "") @client
-//   }
-// `;

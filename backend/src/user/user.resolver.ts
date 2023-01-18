@@ -19,12 +19,12 @@ export class UserResolver {
     return this.userService.findById(id)
   }
 
-  @Query(() => String)
+  @Mutation(() => String)
   login(@Args('authenticateUserDTO') authenticateUserDTO: AuthenticateUserDTO) {
     return this.userService.authenticate(authenticateUserDTO)
   }
 
-  @Mutation(() => User)
+  @Mutation(() => String)
   createUser(@Args('createUserDTO') createUserDTO: CreateUserDTO) {
     return this.userService.create(createUserDTO)
   }
@@ -39,16 +39,6 @@ export class UserResolver {
     console.log('dd')
     if (id === user.id) {
       return await this.userService.update(id, updateUserDTO)
-    } else {
-      throw new UnauthorizedException('No Access')
-    }
-  }
-
-  @UseGuards(GqlAuthGuard)
-  @Mutation(() => String)
-  deleteUser(@Args('id') id: number, @GetUser() user: User) {
-    if (id === user.id) {
-      return this.userService.delete(id)
     } else {
       throw new UnauthorizedException('No Access')
     }

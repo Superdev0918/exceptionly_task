@@ -43,26 +43,7 @@ export class UserService {
       await queryRunner.commitTransaction()
       return user
     } catch (error) {
-      await queryRunner.rollbackTransaction()
-      throw error
-    } finally {
-      await queryRunner.release()
-    }
-  }
-
-  async delete(id: number) {
-    const queryRunner = this.dataSource.createQueryRunner()
-    await queryRunner.connect()
-    await queryRunner.startTransaction()
-    try {
-      if (await queryRunner.manager.findOneBy(User, { id: id })) {
-        await queryRunner.manager.delete(User, { id: id })
-        await queryRunner.commitTransaction()
-        return 'Delete Success'
-      } else {
-        throw new BadRequestException('Unknown User')
-      }
-    } catch (error) {
+      console.log('error: ', error)
       await queryRunner.rollbackTransaction()
       throw error
     } finally {

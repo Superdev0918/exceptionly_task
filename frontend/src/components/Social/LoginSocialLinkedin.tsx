@@ -155,6 +155,7 @@ import { Button } from '@mui/material'
   
       const onLogin = useCallback(() => {
         if (!isProcessing) {
+          console.log("here1")
           onLoginStart && onLoginStart()
           window.addEventListener('storage', onChangeLocalStorage, false)
           const oauthUrl = `${LINKEDIN_URL}/authorization?response_type=${response_type}&client_id=${client_id}&scope=${scope}&state=${

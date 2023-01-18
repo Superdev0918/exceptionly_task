@@ -2,6 +2,10 @@ import React, { useState, createContext, ReactNode, useContext } from 'react'
 
 import api from '../services/api'
 
+import { apolloClient } from "../graphql/client";
+
+import { SignUp } from "../graphql/mutations";
+
 type RegistrationContextData = {
   legalPerson: string
   firstName: string
@@ -47,16 +51,23 @@ const RegistrationProvider: React.FC<Props> = ({ children }) => {
   const [passwordError, setPasswordError] = useState('')
 
   async function sendNewUser() {
-    api.post("users", {
-      email,
-      password,
-      firstName,
-      lastName
-    }).then((response) => {
-      if (response.status === 200) window.location.reload()
-    }).catch((error) => {
-      alert(error)
-    })
+      apolloClient.mutate({
+          mutation: SignUp,
+          variables: {
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+              password: password
+          }
+      })
+      .then((response:any) => {
+          if (response.data !== null) {
+            window.location.reload()
+          }
+      })
+      .catch((error:any) => {
+          console.log('error')
+      })
   }
 
   const values = {

@@ -13,14 +13,14 @@ class UserDTO {
   @Field()
   lastName: string
 
-  @MinLength(8)
-  @MaxLength(20)
+  @MinLength(2)
+  @MaxLength(30)
   @Field()
   email: string
 
-  @MinLength(8)
+  @MinLength(2)
   @MaxLength(20)
-  @Matches(/^[a-zA-Z0-9]*$/)
+  // @Matches(/^[a-zA-Z0-9]*$/)
   @Field()
   password: string
 }
