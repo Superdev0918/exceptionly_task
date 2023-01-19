@@ -8,7 +8,7 @@ const CellContainer = styled.div`
   grid-template-columns: repeat(7, 1fr);
 `;
 export const StyledCell = styled.div<{ isToday: boolean }>`
-  height: 10rem;
+  height: 7rem;
   position: relative;
   background-color: ${props => (props.isToday ? "#c8e6c9" : "transparent")};
   border: 1px solid #f3f4f9;

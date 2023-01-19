@@ -12,8 +12,8 @@ const Header = styled.div<{
   grid-template-columns: repeat(7, 1fr);
   background-color: #f3f4f9;
   justify-items: center;
-  margin-top: 5rem;
-  padding: ${props => props.padding || "2rem"};
+  margin-top: 2rem;
+  padding: ${props => props.padding || "1rem"};
   ${props =>
     props.align &&
     css`
@@ -33,12 +33,13 @@ const StyledHeaderElement = styled.div`
   border: 1px solid #f3f4f9;
   border-top: none;
   border-bottom: none;
-  min-height: 5rem;
+  min-height: 3rem;
 `;
 const StyledHeaderText = styled.h3`
   font-size: 1.2rem;
   text-transform: uppercase;
   color: #424242;
+  margin: 0.5rem;
 `;
 const weekDays = moment.weekdaysShort();
 

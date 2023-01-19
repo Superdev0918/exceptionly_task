@@ -65,6 +65,7 @@ export function EventReducer(
         error: action.error
       };
     case "ADD_EVENT":
+      console.log("event_list: ", state.events)
       return {
         ...state,
         events: [...state.events, action.payload.event]

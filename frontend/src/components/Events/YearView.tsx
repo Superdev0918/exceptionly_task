@@ -12,6 +12,7 @@ const StyledMonthHeader = styled.h3`
   font-size: 1.5rem;
   color: #c8e6c9;
   text-align: center;
+  margin: 0px;
 `;
 const StyledDayContainer = styled.div`
   display: grid;
@@ -29,12 +30,13 @@ const StyledText = styled.p<{ isToday: boolean }>`
   justify-content: center;
   align-items: center;
   color: #424242;
+  margin: 0.5rem;
   background-color: ${props => props.isToday && "#c8e6c9"};
 `;
 const StyledYearContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 20rem;
-  margin-top: 5rem;
+  margin-top: 2rem;
 `;
 const StyledYearContent = styled.div`
   display: grid;

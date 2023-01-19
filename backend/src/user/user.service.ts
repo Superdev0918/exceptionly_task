@@ -43,7 +43,6 @@ export class UserService {
       await queryRunner.commitTransaction()
       return user
     } catch (error) {
-      console.log('error: ', error)
       await queryRunner.rollbackTransaction()
       throw error
     } finally {

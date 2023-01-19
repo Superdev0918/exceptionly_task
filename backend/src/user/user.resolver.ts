@@ -36,7 +36,6 @@ export class UserResolver {
     @Args('updateUserDTO') updateUserDTO: UpdateUserDTO,
     @GetUser() user: User,
   ) {
-    console.log('dd')
     if (id === user.id) {
       return await this.userService.update(id, updateUserDTO)
     } else {

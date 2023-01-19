@@ -33,7 +33,7 @@ type DivEventType = React.MouseEvent<HTMLDivElement, MouseEvent>;
 type DragEventType = React.DragEvent<HTMLDivElement>;
 
 const StyledCalendarContainer = styled.div`
-  padding: 5rem;
+  padding: 2rem;
 `;
 const H3 = styled.h3`
   font-size: 1.5rem;
@@ -181,6 +181,7 @@ const HomePage: React.FC<{}> = () => {
       id: ID(),
       weekRow: formEvent.weekRow
     };
+    console.log("here: ", event);
     dispatch({ type: "ADD_EVENT", payload: { event } }); // add event to globale events
     setFormEvent({ type: "EVENT", payload: { event } }); //set the current event
     setFormEvent({ type: "IS_BRIEF_VISIBLE", payload: false });
