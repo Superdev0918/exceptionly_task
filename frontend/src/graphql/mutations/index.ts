@@ -17,7 +17,9 @@ export const SignUp = gql`
         lastName: $lastName
         email: $email
         password: $password
-    })
+    }) {
+      id
+    }
   }
 `;
 

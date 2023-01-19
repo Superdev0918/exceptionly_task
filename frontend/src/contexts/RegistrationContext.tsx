@@ -67,6 +67,7 @@ const RegistrationProvider: React.FC<Props> = ({ children }) => {
       .then((response:any) => {
           if (response.data !== null) {
             window.location.reload()
+            toast("Sign in Success!");
           }
       })
       .catch((error:any) => {
