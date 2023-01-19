@@ -4,6 +4,8 @@ import Routes from './routes'
 
 import { AuthProvider } from './contexts/AuthContext'
 
+import { EventProvider} from './contexts/Event';
+
 // import { ThemeProvider } from '@mui/material/styles'
 // import CssBaseline from '@mui/material/CssBaseline'
 // import theme from './assets/style/theme'
@@ -13,7 +15,9 @@ function App() {
     // <ThemeProvider theme={theme}>
       // <CssBaseline />
       <AuthProvider>
-        <Routes />
+        <EventProvider >
+          <Routes />
+        </EventProvider>
       </AuthProvider>
     // </ThemeProvider>
   )
