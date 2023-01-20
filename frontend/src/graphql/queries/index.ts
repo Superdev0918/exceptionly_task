@@ -1,5 +1,16 @@
 import gql from 'graphql-tag';
 
+export const getBookQuery = gql`
+  query getBook ($userId: String!) {
+    getBook(userId:$userId) {
+      bookDate
+      taskId
+      task
+      weekRow
+    }
+  }
+`;
+
 export const currentUserQuery = gql`
   query getUser {
     getUser(id:1) {

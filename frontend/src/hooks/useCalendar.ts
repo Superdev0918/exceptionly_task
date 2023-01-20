@@ -23,7 +23,7 @@ export default function(date: moment.Moment, events: IEvent[]) {
   const formatDays = (days: number[]) =>
     days.map(day => {
       const dateStr = dayDate(day);
-      const cellEvents = events.filter(event => event.date === dateStr);
+      const cellEvents = events.filter(event => event.date.substring(0, 15) === dateStr.substring(0, 15));
       return {
         day: day,
         passed: day === 0,

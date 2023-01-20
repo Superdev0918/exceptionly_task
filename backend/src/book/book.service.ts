@@ -17,8 +17,11 @@ export class BookService {
     private readonly dataSource: DataSource,
   ) {}
 
+  findByUserId(userId: string) {
+    return this.userRepository.findBy({ userId: userId })
+  }
+
   async create(createBookDTO: CreateBookDTO) {
-    console.log('here: ', createBookDTO)
     const queryRunner = this.dataSource.createQueryRunner()
     await queryRunner.connect()
     await queryRunner.startTransaction()

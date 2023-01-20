@@ -4,22 +4,22 @@ import { MinLength, MaxLength, Matches } from 'class-validator'
 @InputType()
 class BookDTO {
   @MinLength(1)
-  @MaxLength(20)
+  @MaxLength(225)
   @Field()
   userId: string
 
   @MinLength(2)
-  @MaxLength(20)
+  @MaxLength(225)
   @Field()
-  date: string
+  bookDate: string
 
   @MinLength(2)
-  @MaxLength(30)
+  @MaxLength(225)
   @Field()
   taskId: string
 
   @MinLength(2)
-  @MaxLength(20)
+  @MaxLength(225)
   @Field()
   task: string
 

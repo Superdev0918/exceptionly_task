@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import Picker, {
   StyledPickerWrapper,
   StyledPickerGroup
@@ -23,6 +23,13 @@ import YearView from "../../components/Events/YearView";
 
 import styled from "styled-components";
 import moment from "moment";
+
+import { apolloClient } from "../../graphql/client";
+import { CreateBooking } from "../../graphql/mutations";
+import { getBookQuery } from "../../graphql/queries";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type ChangeEventType =
   | React.ChangeEvent<HTMLInputElement>
@@ -131,8 +138,48 @@ const FormEventReducer = (state: FormEvent, action: FormEventAction) => {
 };
 
 const HomePage: React.FC<{}> = () => {
-  const [date, setDate] = useState(moment());
+
   const { state, dispatch } = useEvents();
+  useEffect(() => {
+    apolloClient.query({
+      query: getBookQuery,
+      variables: {
+          userId: localStorage.getItem('userToken'),
+      }
+    })
+    .then((response:any) => {
+        if (response.data !== null) {
+          const eventsData = response.data.getBook.map((item: any) => ({
+            task: JSON.parse(item.task),
+            date: item.bookDate,
+            id: item.taskId,
+            weekRow: ~~item.weekRow
+          }))
+          dispatch({ type: 'FETCH_EVENTS_SUCCESS', payload: { events: eventsData } });
+          // response.data.getBook.forEach((element:any) => {
+          //   const event = {
+          //     date: element.bookDate,
+          //     task: JSON.parse(element.task),
+          //     id: element.taskId,
+          //     weekRow: element.weekRow
+          //   }
+          //   console.log("event: ", event);
+          //   dispatch({ type: "ADD_EVENT", payload: { event } }); // add event to globale events
+          //   // setFormEvent({ type: "EVENT", payload: { event } }); //set the current event
+          //   // setFormEvent({ type: "IS_BRIEF_VISIBLE", payload: false });
+          //   // setFormEvent({ type: "RESET_NAME" });
+          // });
+          
+        }
+    })
+    .catch((error:any) => { 
+        const stringError = JSON.stringify(error)
+        const jsonError = JSON.parse(stringError)
+        const message = jsonError.graphQLErrors[0].message
+        toast(message);
+    })
+  }, [dispatch])
+  const [date, setDate] = useState(moment());
 
   const [formEvent, setFormEvent] = useReducer(
     FormEventReducer,
@@ -144,7 +191,7 @@ const HomePage: React.FC<{}> = () => {
     state.events
   );
 
-  const [view, setView] = useState("month");
+  const [view, setView] = useState("week");
   const [weekIndex, setWeekIndex] = useState(0);
 
   const updateDate = (type: moment.unitOfTime.All, index: number) => {
@@ -181,11 +228,32 @@ const HomePage: React.FC<{}> = () => {
       id: ID(),
       weekRow: formEvent.weekRow
     };
-    console.log("here: ", event);
-    dispatch({ type: "ADD_EVENT", payload: { event } }); // add event to globale events
-    setFormEvent({ type: "EVENT", payload: { event } }); //set the current event
-    setFormEvent({ type: "IS_BRIEF_VISIBLE", payload: false });
-    setFormEvent({ type: "RESET_NAME" });
+
+    apolloClient.mutate({
+      mutation: CreateBooking,
+      variables: {
+          userId: localStorage.getItem('userToken'),
+          bookDate: formEvent.selectedDate,
+          taskId: ID(),
+          task: JSON.stringify(task),
+          weekRow: formEvent.weekRow.toString()
+      }
+    })
+    .then((response:any) => {
+        if (response.data !== null) {
+          console.log("booking success:");
+          dispatch({ type: "ADD_EVENT", payload: { event } }); // add event to globale events
+          setFormEvent({ type: "EVENT", payload: { event } }); //set the current event
+          setFormEvent({ type: "IS_BRIEF_VISIBLE", payload: false });
+          setFormEvent({ type: "RESET_NAME" });
+        }
+    })
+    .catch((error:any) => { 
+        const stringError = JSON.stringify(error)
+        const jsonError = JSON.parse(stringError)
+        const message = jsonError.graphQLErrors[0].message
+        toast(message);
+    })
   };
   const handleOnDetail = () => {
     setFormEvent({ type: "IS_BRIEF_VISIBLE", payload: false });
@@ -250,6 +318,7 @@ const HomePage: React.FC<{}> = () => {
   const switchView = (id: string) => {
     setView(id);
   };
+  console.log(state);
 
   return (
     <>
@@ -359,6 +428,7 @@ const HomePage: React.FC<{}> = () => {
           </CellEvent>
         ))}
       </TaskModal>
+      <ToastContainer />
     </>
   );
 };

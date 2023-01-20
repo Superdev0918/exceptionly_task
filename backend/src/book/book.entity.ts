@@ -15,7 +15,7 @@ class Book {
 
   @Field(() => String)
   @Column()
-  date: string
+  bookDate: string
 
   @Field(() => String)
   @Column()

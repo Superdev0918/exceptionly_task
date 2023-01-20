@@ -18,7 +18,6 @@ const transformEvents = (
   dateStr: string,
   weekRow: number
 ): IEvent[] => {
-  console.log("weekRow", weekRow);
   const event = events.find(event => event.id === id);
   const newEvent = {
     ...event,
@@ -65,7 +64,6 @@ export function EventReducer(
         error: action.error
       };
     case "ADD_EVENT":
-      console.log("event_list: ", state.events)
       return {
         ...state,
         events: [...state.events, action.payload.event]
