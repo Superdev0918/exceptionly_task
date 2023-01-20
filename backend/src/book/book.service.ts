@@ -18,13 +18,16 @@ export class BookService {
   ) {}
 
   findByUserId(userId: string) {
-    return this.userRepository.findBy({ userId: userId })
+    const decode: any = this.jwtService.decode(userId)
+    return this.userRepository.findBy({ userId: decode.id })
   }
 
   async create(createBookDTO: CreateBookDTO) {
     const queryRunner = this.dataSource.createQueryRunner()
     await queryRunner.connect()
     await queryRunner.startTransaction()
+    const decode: any = this.jwtService.decode(createBookDTO.userId)
+    createBookDTO.userId = decode.id
     try {
       const book = queryRunner.manager.create(Book, createBookDTO)
       await queryRunner.manager.save(book)

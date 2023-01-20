@@ -16,7 +16,8 @@ import FormDetail from "../../components/Events/TaskModalFormDetail";
 import { Form } from "../../components/Events/TaskModalForm";
 import TaskModal from "../../components/Events/TaskModal";
 import { StyledFooter } from "../../components/Events/TaskModal";
-import Button from "../../components/Events/Button";
+// import Button from "../../components/Events/Button";
+import { Button } from '@mui/material'
 import Switch, { StyledGroupSwitch } from "../../components/Events/Switch";
 import WeekView from "../../components/Events/WeekView";
 import YearView from "../../components/Events/YearView";
@@ -30,6 +31,8 @@ import { getBookQuery } from "../../graphql/queries";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { useAuthContext } from '../../contexts/AuthContext'
 
 type ChangeEventType =
   | React.ChangeEvent<HTMLInputElement>
@@ -166,6 +169,8 @@ const HomePage: React.FC<{}> = () => {
     })
   }, [dispatch])
   const [date, setDate] = useState(moment());
+
+  const { signOut } = useAuthContext()
 
   const [formEvent, setFormEvent] = useReducer(
     FormEventReducer,
@@ -338,6 +343,15 @@ const HomePage: React.FC<{}> = () => {
             <Picker date={date} type="month" setDate={updateDate} key={ID()} />
             <Picker date={date} type="year" setDate={updateDate} key={ID()} />
           </StyledPickerGroup>
+          {/* <Button
+            text="LogOut"
+            onClick={handleOnSave}
+            isDisabled={false}
+            type="button"
+          /> */}
+          <Button onClick={signOut} variant="contained" color="warning">
+            LogOut
+          </Button>
         </StyledPickerWrapper>
         {view === "month" && <CalendarHeaderMonth />}
         {view === "week" && (
@@ -381,13 +395,19 @@ const HomePage: React.FC<{}> = () => {
         position={pos}
         footer={
           <StyledFooter>
-            <Button text="Detail" onClick={handleOnDetail} btnType="normal" />
-            <Button
+            <Button onClick={handleOnDetail} variant="contained" color="primary">
+              Detail
+            </Button>
+            {/* <Button text="Detail" onClick={handleOnDetail} btnType="normal" /> */}
+            {/* <Button
               text="Save"
               onClick={handleOnSave}
               isDisabled={!hasTask}
               type="submit"
-            />
+            /> */}
+            <Button onClick={handleOnSave} variant="contained" color="success" disabled={!hasTask}>
+              Save
+            </Button>
           </StyledFooter>
         }
       >
@@ -402,8 +422,14 @@ const HomePage: React.FC<{}> = () => {
       <TaskModal
         footer={
           <StyledFooter>
-            <Button text="Delete" onClick={handleOnDelete} btnType="normal" />
-            <Button text="Save" onClick={handleOnEdit} />
+            {/* <Button text="Delete" onClick={handleOnDelete} btnType="normal" />
+            <Button text="Save" onClick={handleOnEdit} /> */}
+            <Button onClick={handleOnDelete} variant="contained" color="warning">
+              Delete
+            </Button>
+            <Button onClick={handleOnEdit} variant="contained" color="success">
+              Save
+            </Button>
           </StyledFooter>
         }
         isOpen={formEvent.isDetailVisible}

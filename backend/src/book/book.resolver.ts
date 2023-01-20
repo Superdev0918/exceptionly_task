@@ -15,7 +15,6 @@ export class BookResolver {
 
   @Mutation(() => Book)
   createBooking(@Args('createBookDTO') createBookDTO: CreateBookDTO) {
-    console.log('here: ', createBookDTO)
     return this.bookService.create(createBookDTO)
   }
 
