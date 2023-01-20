@@ -186,7 +186,6 @@ const HomePage: React.FC<{}> = () => {
   const [weekIndex, setWeekIndex] = useState(0);
 
   const updateDate = (type: moment.unitOfTime.All, index: number) => {
-    console.log("index", index);
     if (view === "week") {
       if (weekIndex < 3) setWeekIndex(weekIndex => weekIndex + 1);
       else {
@@ -232,7 +231,6 @@ const HomePage: React.FC<{}> = () => {
     })
     .then((response:any) => {
         if (response.data !== null) {
-          console.log("booking success:");
           dispatch({ type: "ADD_EVENT", payload: { event } }); // add event to globale events
           setFormEvent({ type: "EVENT", payload: { event } }); //set the current event
           setFormEvent({ type: "IS_BRIEF_VISIBLE", payload: false });
@@ -327,7 +325,6 @@ const HomePage: React.FC<{}> = () => {
   const switchView = (id: string) => {
     setView(id);
   };
-  console.log("state: ", state);
 
   return (
     <>

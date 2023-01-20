@@ -53,7 +53,6 @@ const RegisterCard: React.FC<LoginCardProps> = (props) => {
   const handleSubmitButton = () => {
 
       if (firstName === '' && firstNameError === '') {
-        console.log(typeof(firstName));
         setFirstName('');
         setFirstNameError(validateFirstName(''));
       } 
@@ -89,7 +88,6 @@ const RegisterCard: React.FC<LoginCardProps> = (props) => {
   }
 
   const handleValidateFirstName = (event:React.ChangeEvent<HTMLInputElement>) => {
-    console.log("here: ", event.target.value);
     setFirstName(event.target.value);
     setFirstNameError(validateFirstName(event.target.value));
   }

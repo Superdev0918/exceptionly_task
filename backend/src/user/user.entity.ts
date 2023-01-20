@@ -25,6 +25,10 @@ class User {
   @Column()
   password: string
 
+  @Field(() => String)
+  @Column()
+  provider: string
+
   @BeforeInsert()
   async hashPassword() {
     const salt = await genSalt(10)

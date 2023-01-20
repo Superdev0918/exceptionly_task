@@ -19,6 +19,13 @@ import './styles.css';
 
 import { Divider, Button, Link } from '@mui/material'
 
+
+import { apolloClient } from "../../graphql/client";
+
+import { SignUp } from "../../graphql/mutations";
+
+import 'react-toastify/dist/ReactToastify.css';
+
 import { 
     LoginSocialGoogle,
     LoginSocialLinkedin,
@@ -34,11 +41,9 @@ export interface LoginCardProps {
 const REDIRECT_URI = 'http://localhost:3000/'
 
 const Login: React.FC = () => {
-    const { loading } = useAuthContext()
+    const { loading, setSigned } = useAuthContext()
 
     const [loginMode, setLoginMode] = useState('login')
-    const [profile, setProfile] = useState<any>()
-    const [provider, setProvider] = useState('')
 
     const linkedinRef = useRef<TypeCrossFunction>(null!)
 
@@ -47,12 +52,40 @@ const Login: React.FC = () => {
     }, [])
 
     const onLogoutSuccess = useCallback(() => {
-        setProfile(null)
-        setProvider('')
         alert('logout success')
     }, [])
 
     const onLogout = useCallback(() => {}, []);
+
+    const handleSocialLogin = ({ provider, data }: IResolveParams) => {
+        const stringData = JSON.stringify(data)
+        const jsonData = JSON.parse(stringData)
+        console.log(data);
+        apolloClient.mutate({
+            mutation: SignUp,
+            variables: {
+                firstName: jsonData.localizedFirstName,
+                lastName: jsonData.localizedLastName,
+                email: jsonData.id,
+                password: "password",
+                provider: provider
+            }
+        })
+        .then((response:any) => {
+            if (response.data !== null) {
+                setSigned(true);
+                const token = response.data.createUser
+                localStorage.setItem('userToken', token)
+                localStorage.setItem('userEmail', 'email')
+            }
+        })
+        .catch((error:any) => {
+          const stringError = JSON.stringify(error)
+          const jsonError = JSON.parse(stringError)
+          const message = jsonError.graphQLErrors[0].message
+          toast(message);
+        })
+    }
 
     return (
         <div className='signup'>
@@ -97,8 +130,7 @@ const Login: React.FC = () => {
                                         discoveryDocs="claims_supported"
                                         access_type="offline"
                                         onResolve={({ provider, data }: IResolveParams) => {
-                                            setProvider(provider);
-                                            setProfile(data);
+                                            handleSocialLogin({ provider, data });
                                         }}
                                         onReject={err => {
                                             console.log(err);
@@ -114,8 +146,7 @@ const Login: React.FC = () => {
                                         onLoginStart={onLoginStart}
                                         onLogoutSuccess={onLogoutSuccess}
                                         onResolve={({ provider, data }: IResolveParams) => {
-                                            setProvider(provider)
-                                            setProfile(data)
+                                            handleSocialLogin({ provider, data });
                                         }}
                                         onReject={(err: any) => {
                                             console.log(err)
@@ -126,8 +157,7 @@ const Login: React.FC = () => {
                                         redirect_uri={REDIRECT_URI}
                                         onLoginStart={onLoginStart}
                                         onResolve={({ provider, data }: IResolveParams) => {
-                                            setProvider(provider);
-                                            setProfile(data);
+                                            handleSocialLogin({ provider, data });
                                         }}
                                         onReject={(err: any) => {
                                             console.log(err);

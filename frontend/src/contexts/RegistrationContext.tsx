@@ -61,7 +61,8 @@ const RegistrationProvider: React.FC<Props> = ({ children }) => {
               firstName: firstName,
               lastName: lastName,
               email: email,
-              password: password
+              password: password,
+              provider: "general"
           }
       })
       .then((response:any) => {

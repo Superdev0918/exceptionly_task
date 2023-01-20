@@ -24,7 +24,7 @@ export class UserResolver {
     return this.userService.authenticate(authenticateUserDTO)
   }
 
-  @Mutation(() => User)
+  @Mutation(() => String)
   createUser(@Args('createUserDTO') createUserDTO: CreateUserDTO) {
     return this.userService.create(createUserDTO)
   }

@@ -11,15 +11,14 @@ export const SignIn = gql`
 
 
 export const SignUp = gql`
-  mutation createUser ($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
+  mutation createUser ($firstName: String!, $lastName: String!, $email: String!, $password: String!, $provider: String!) {
     createUser (createUserDTO: {
         firstName: $firstName
         lastName: $lastName
         email: $email
         password: $password
-    }) {
-      id
-    }
+        provider: $provider
+    })
   }
 `;
 

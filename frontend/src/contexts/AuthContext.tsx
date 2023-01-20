@@ -20,6 +20,7 @@ interface AuthContextData {
     signOut(): void
     setEmailError: React.Dispatch<React.SetStateAction<string>>
     setPasswordError: React.Dispatch<React.SetStateAction<string>>
+    setSigned: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 interface user {
@@ -113,6 +114,7 @@ export const AuthProvider: React.FC<IAuthProviderProp> = ({ children }) => {
                 signOut,
                 setEmailError,
                 setPasswordError,
+                setSigned,
             }}
         >
             {children}
@@ -132,7 +134,8 @@ export function useAuthContext() {
         signIn,
         signOut,
         setEmailError,
-        setPasswordError
+        setPasswordError,
+        setSigned
     } = context
     return {
         signed,
@@ -144,7 +147,8 @@ export function useAuthContext() {
         signIn,
         signOut,
         setEmailError,
-        setPasswordError
+        setPasswordError,
+        setSigned
     }
   }
   

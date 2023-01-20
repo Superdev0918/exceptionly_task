@@ -32,16 +32,31 @@ export class UserService {
     await queryRunner.startTransaction()
     try {
       if (
-        await queryRunner.manager.findOneBy(User, {
+        (await queryRunner.manager.findOneBy(User, {
           email: createUserDTO.email,
-        })
+        })) &&
+        createUserDTO.provider === 'general'
       ) {
         throw new BadRequestException('Already Exist User')
+      } else if (
+        (await queryRunner.manager.findOneBy(User, {
+          email: createUserDTO.email,
+        })) &&
+        createUserDTO.provider !== 'general'
+      ) {
+        const socialUser = await this.userRepository.findOneBy({
+          email: createUserDTO.email,
+        })
+        const accessToken = this.jwtService.sign({ id: socialUser.id })
+        return accessToken
       }
-      const user = queryRunner.manager.create(User, createUserDTO)
+
+      const user: any = queryRunner.manager.create(User, createUserDTO)
       await queryRunner.manager.save(user)
       await queryRunner.commitTransaction()
-      return user
+      const accessToken = this.jwtService.sign({ id: user.id })
+      return accessToken
+      // return user
     } catch (error) {
       await queryRunner.rollbackTransaction()
       throw error
