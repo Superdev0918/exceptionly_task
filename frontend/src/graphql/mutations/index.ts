@@ -37,6 +37,15 @@ export const CreateBooking = gql`
   }
 `;
 
+export const UpdateBooking = gql`
+  mutation updateBooking ($taskId: String!, $weekRow: String!, $bookDate: String!) {
+    updateBooking(taskId: $taskId, updateBookDTO : {
+      weekRow: $weekRow
+      bookDate: $bookDate
+    })
+  }
+`;
+
 
 export const requestResetPasswordMutation = gql`
     mutation RequestResetPasswordMutation($email: String!) {

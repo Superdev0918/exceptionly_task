@@ -31,5 +31,7 @@ class BookDTO {
 
 @InputType()
 class CreateBookDTO extends BookDTO {}
+@InputType()
+class UpdateBookDTO extends PartialType(BookDTO) {}
 
-export { CreateBookDTO }
+export { CreateBookDTO, UpdateBookDTO }

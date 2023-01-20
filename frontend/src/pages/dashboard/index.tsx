@@ -25,7 +25,7 @@ import styled from "styled-components";
 import moment from "moment";
 
 import { apolloClient } from "../../graphql/client";
-import { CreateBooking } from "../../graphql/mutations";
+import { CreateBooking, UpdateBooking } from "../../graphql/mutations";
 import { getBookQuery } from "../../graphql/queries";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -156,20 +156,6 @@ const HomePage: React.FC<{}> = () => {
             weekRow: ~~item.weekRow
           }))
           dispatch({ type: 'FETCH_EVENTS_SUCCESS', payload: { events: eventsData } });
-          // response.data.getBook.forEach((element:any) => {
-          //   const event = {
-          //     date: element.bookDate,
-          //     task: JSON.parse(element.task),
-          //     id: element.taskId,
-          //     weekRow: element.weekRow
-          //   }
-          //   console.log("event: ", event);
-          //   dispatch({ type: "ADD_EVENT", payload: { event } }); // add event to globale events
-          //   // setFormEvent({ type: "EVENT", payload: { event } }); //set the current event
-          //   // setFormEvent({ type: "IS_BRIEF_VISIBLE", payload: false });
-          //   // setFormEvent({ type: "RESET_NAME" });
-          // });
-          
         }
     })
     .catch((error:any) => { 
@@ -298,6 +284,24 @@ const HomePage: React.FC<{}> = () => {
   ) => {
     const id = e.dataTransfer.getData("text/plain");
     dispatch({ type: "SWAP_EVENT", payload: { id, dateStr, weekRow } });
+    apolloClient.mutate({
+      mutation: UpdateBooking,
+      variables: {
+          taskId: id,
+          weekRow: weekRow.toString(),
+          bookDate: dateStr
+      }
+    })
+    .then((response:any) => {
+        if (response.data !== null) {
+        }
+    })
+    .catch((error:any) => { 
+        const stringError = JSON.stringify(error)
+        const jsonError = JSON.parse(stringError)
+        const message = jsonError.graphQLErrors[0].message
+        toast(message);
+    })
   };
   const handleOnDragOver = (e: DragEventType) => {
     e.preventDefault();
@@ -318,7 +322,7 @@ const HomePage: React.FC<{}> = () => {
   const switchView = (id: string) => {
     setView(id);
   };
-  console.log(state);
+  console.log("state: ", state);
 
   return (
     <>

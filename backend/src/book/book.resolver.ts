@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { BookService } from './book.service'
-import { CreateBookDTO } from './book.DTO'
+import { CreateBookDTO, UpdateBookDTO } from './book.DTO'
 import Book from './book.entity'
 // import { GetUser, GqlAuthGuard } from './user.decorator'
 
@@ -17,5 +17,13 @@ export class BookResolver {
   createBooking(@Args('createBookDTO') createBookDTO: CreateBookDTO) {
     console.log('here: ', createBookDTO)
     return this.bookService.create(createBookDTO)
+  }
+
+  @Mutation(() => String)
+  async updateBooking(
+    @Args('taskId') taskId: string,
+    @Args('updateBookDTO') updateBookDTO: UpdateBookDTO,
+  ) {
+    return await this.bookService.update(taskId, updateBookDTO)
   }
 }
